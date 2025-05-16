@@ -1,4 +1,13 @@
-param appServiceAppName string = 'toy-product-launch-1'
-param location string = resourceGroup().location
+targetScope = 'subscription'
 
+param resourceGroupName string = 'event-rg'
+param location string = 'westeurope'
+
+module creatingRgModule './resource.bicep' = {
+  name: 'createResourceGroup'
+  params: {
+    resourceGroupName: resourceGroupName
+    location: location
+  }
+}
 

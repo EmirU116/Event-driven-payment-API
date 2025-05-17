@@ -13,3 +13,16 @@ module creatingRgModule 'resource.bicep' = {
   }
 }
 
+module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
+  name: 'deployFuncApp'
+  scope: resourceGroup(resourceGroupName)   // <-- important
+  params: {
+    location: location
+    appNameSuffix: uniqueString(resourceGroupName)
+    functionAppName: 'myfunctionappgoklarz'
+  }
+  dependsOn: [
+    creatingRgModule
+  ]  
+} 
+ 

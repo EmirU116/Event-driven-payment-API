@@ -26,3 +26,8 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
   ]  
 } 
  
+// (optional) Monitor Logging
+// Service Bus
+// Connection with CI/CD
+// Create an Cosmos Database & connect it
+// Event Grid

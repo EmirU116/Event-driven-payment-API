@@ -25,7 +25,10 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
     creatingRgModule
   ]  
 } 
- 
+
+// Event Grid Topic creation
+
+
 // (optional) Monitor Logging
 // Service Bus
 // Connection with CI/CD

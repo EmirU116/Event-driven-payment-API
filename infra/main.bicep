@@ -27,10 +27,22 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
 } 
 
 // Event Grid Topic creation
-
+module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
+  name: 'deployEventGridTopic'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    topicName: 'payment-event-grid'
+    location: location
+    skuName: 'Basic'
+    inputSchemaNAme: 'EventGridSchema'
+  }
+  dependsOn: [
+    creatingRgModule
+  ]
+}
 
 // (optional) Monitor Logging
 // Service Bus
 // Connection with CI/CD
 // Create an Cosmos Database & connect it
-// Event Grid
+

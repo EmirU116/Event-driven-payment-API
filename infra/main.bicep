@@ -33,7 +33,6 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   params: {
     topicName: 'payment-event-grid'
     location: location
-    skuName: 'Basic'
     inputSchemaNAme: 'EventGridSchema'
   }
   dependsOn: [
@@ -45,4 +44,5 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
 // Service Bus
 // Connection with CI/CD
 // Create an Cosmos Database & connect it
+// Key Vault
 

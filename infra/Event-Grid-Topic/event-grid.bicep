@@ -1,7 +1,7 @@
 // Parameters? 
 param location string = resourceGroup().location
 param topicName string
-param skuName string = 'Basic'
+//param skuName string = 'Basic'
 param inputSchemaNAme string = 'EventGridSchema'
 
 
@@ -10,9 +10,6 @@ param inputSchemaNAme string = 'EventGridSchema'
 resource eventGridTopic 'Microsoft.EventGrid/topics@2025-02-15' = {
   name: topicName
   location: location
-  sku:{
-    name: skuName
-  }
   properties: {
     inputSchema: inputSchemaNAme
   }

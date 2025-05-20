@@ -12,7 +12,7 @@ module creatingRgModule 'resource.bicep' = {
     location: location
   }
 }
-
+// creating function app from funcapp.bicep script with consumption plan
 module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
   name: 'deployFuncApp'
   scope: resourceGroup(resourceGroupName)   // <-- important

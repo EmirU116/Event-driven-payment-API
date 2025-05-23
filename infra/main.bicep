@@ -40,6 +40,9 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   ]
 }
 
+// Service Bus (Queue)
+
+
 // (optional) Monitor Logging
 // Service Bus
 // Connection with CI/CD

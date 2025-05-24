@@ -1,6 +1,11 @@
 @description('Name of the service bus ')
 param serviceBusName string
 
+@allowed([
+  'Basic'
+  'Standard'
+  'Premium'
+])
 param skuName string = 'Basic'
 
 param location string = resourceGroup().location
@@ -25,5 +30,16 @@ resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
   name: servicebusQueueName
   properties: {
     lockDuration:'PT2M'
+    maxSizeInMegabytes: 1024
+    enablePartitioning: false
+    enableExpress: false
+    requiresDuplicateDetection: false
+    defaultMessageTimeToLive: 'P14D' // 14 days
+    deadLetteringOnMessageExpiration: true
   }
 }
+
+// Outputs
+output serviceBusNamespaceName string = serviceBus.name
+output serviceBusQueueId string = serviceBusQueue.id
+output serviceBusQueueName string = serviceBusQueue.name

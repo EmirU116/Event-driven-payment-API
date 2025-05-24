@@ -7,8 +7,8 @@
 
 ## Key Azure Services used
 
-    - Azure Functions
-    - Event Grid
+    - Azure Function App - which is Serverless solution to create serverless functions  
+    - Event Grid - 
     - Service Bus
     - Cosmos DB 
     - Key Vault

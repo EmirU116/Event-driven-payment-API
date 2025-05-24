@@ -4,6 +4,19 @@ targetScope = 'subscription'
 param resourceGroupName string = 'event-rg'
 param location string = 'westeurope'
 
+param serviceBusName string = 'sb-namespace'
+
+param serviceBusQueueName string = 'payment-queue'
+
+
+@allowed([
+  'Basic'
+  'Standard'
+  'Premium'
+])
+
+param skuName string = 'Basic'
+
 // calling resource script 
 module creatingRgModule 'resource.bicep' = {
   name: 'createResourceGroup'
@@ -41,7 +54,10 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
 }
 
 // Service Bus (Queue)
+module serviceBusModule 'Service-Bus/service-bus.bicep' = 
+{
 
+}
 
 // (optional) Monitor Logging
 // Service Bus

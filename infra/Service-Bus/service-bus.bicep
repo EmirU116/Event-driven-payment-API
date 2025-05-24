@@ -14,5 +14,16 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2024-01-01' = {
   location: location
   sku: {
     name: skuName
+  }
+  properties: {
+    
   } 
+}
+
+resource serviceBusQueue 'Microsoft.ServiceBus/namespaces/queues@2024-01-01' = {
+  parent: serviceBus
+  name: servicebusQueueName
+  properties: {
+    lockDuration:'PT2M'
+  }
 }

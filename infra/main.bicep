@@ -38,6 +38,17 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
     creatingRgModule
   ]  
 } 
+// service bus (queue)
+module createServcieBus 'Service-Bus/service-bus.bicep' = {
+  name: 'deployServcieBus'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    serviceBusName: serviceBusName
+    servicebusQueueName: serviceBusQueueName
+    skuName: skuName
+    location: location
+  }
+}
 
 // Event Grid Topic creation
 module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
@@ -53,11 +64,6 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   ]
 }
 
-// Service Bus (Queue)
-module serviceBusModule 'Service-Bus/service-bus.bicep' = 
-{
-
-}
 
 // (optional) Monitor Logging
 // Service Bus

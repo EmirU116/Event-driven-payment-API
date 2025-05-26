@@ -40,3 +40,38 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-12-01
         }
     }
 }
+
+// Database container
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2024-12-01-preview' = {
+    parent: database
+    name: containerName
+    properties: {
+        resource: {
+            id: containerName
+            partitionKey: {
+                paths: [
+                    '/myPartitionKey'
+                ]
+                kind: 'Hash'
+            }
+            indexingPolicy: {
+                indexingMode: 'consistent'
+                includedPaths: [
+                 {
+                    path: '/*'
+                 }
+                ]
+                excludedPaths: [
+                 {
+                    path: '/_etag/?'
+                 }
+                ]
+            }
+        }
+    }
+}
+
+output location string = location
+output name string = container.name
+output resourceGroupName string = resourceGroup().name
+output resourceId string = container.id

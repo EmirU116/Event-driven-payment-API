@@ -26,3 +26,17 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2024-12-01-preview' = {
         ]
     }
 }
+
+// Create database resource
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2024-12-01-preview' = {
+    parent: account
+    name: databaseName
+    properties: {
+        resource: {
+            id: databaseName
+        }
+        options: {
+            throughput: 1000
+        }
+    }
+}

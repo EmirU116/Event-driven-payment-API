@@ -12,6 +12,11 @@ param serviceBusQueueName string = 'payment-queue'
 param keyVaultName string = 'myKeyVaultDemo'
 param objectId string
 
+// Parameter for Cosmos DB
+param cosmosAccountName string = 'my-cosmos-account'
+param cosmosDBName string = 'auditlogdb'
+param cosmosContainerName string = 'transactions'
+
 @allowed([
   'Basic'
   'Standard'
@@ -67,6 +72,19 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   ]
 }
 
+// Cosmos DB Module
+module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
+  name: 'cosmosDeployment'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    accountName: cosmosAccountName
+    containerName: cosmosContainerName
+    databaseName: cosmosDBName
+  }
+}
+// Access module outputs
+output cosmosContainerId string = cosmosDBModule.outputs.resourceId
+output cosmosContainerName string = cosmosDBModule.outputs.name
 
 // Key Vault
 module keyVaultModule 'KeyVault/keyvault.bicep' = {

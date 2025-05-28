@@ -4,10 +4,13 @@ targetScope = 'subscription'
 param resourceGroupName string = 'event-rg'
 param location string = 'westeurope'
 
+// Service Bus Parameters
 param serviceBusName string = 'sb-namespace'
-
 param serviceBusQueueName string = 'payment-queue'
 
+// Parameters for Key Vault
+param keyVaultName string = 'myKeyVaultDemo'
+param objectId string
 
 @allowed([
   'Basic'
@@ -65,9 +68,17 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
 }
 
 
-// (optional) Monitor Logging
-// Service Bus
-// Connection with CI/CD
-// Create an Cosmos Database & connect it
 // Key Vault
+module keyVaultModule 'KeyVault/keyvault.bicep' = {
+  scope: resourceGroup(resourceGroupName)
+  name: 'deployKeyVault'
+  params: {
+    keyvaulName: keyVaultName
+    objecId: objectId
+    location:location
+  }
+}
+
+
+
 

@@ -31,6 +31,6 @@ resource keyVault 'Microsoft.KeyVault/vaults@2024-12-01-preview' = {
     ]
     enabledForDeployment: true
     enabledForTemplateDeployment: true
-    enabledForDiskEncryption: false
+    enabledForDiskEncryption: false 
   }
 }

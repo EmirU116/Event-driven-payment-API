@@ -1,9 +1,14 @@
+using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Google.Protobuf;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using Azure.Messaging.ServiceBus;
+using Microsoft.Azure.Functions.Worker.Http;
+using System.Net;
 
 namespace Company.Function;
 
@@ -17,12 +22,23 @@ public class SwipeCardFunc
     }
 
     [Function("SwipeCardFunc")]
-    public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req, CardData card)
+    public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
     {
-        _logger.LogInformation("C# HTTP trigger function processed a request.");
-        card.
-        return new OkObjectResult("Welcome to Azure Functions! " + tes);
+        var body = await req.ReadAsStringAsync();
 
-        //connect / trigger event grid function
+        var client = new ServiceBusClient("<connection-string>");
+        var sender = client.CreateSender("my-queue");
+
+        var message = new ServiceBusMessage(body)
+        {
+            ContentType = "application/json",
+            Subject = "PaymentCreated"
+        };
+
+        await sender.SendMessageAsync(message);
+
+        var response = req.CreateResponse(HttpStatusCode.OK);
+        await response.WriteStringAsync("Message sent to Servcie Bus");
+        return response;
     }
 }

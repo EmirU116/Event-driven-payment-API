@@ -1,10 +1,11 @@
 
 public class CardData
 {
-    public string? userCardName { get; set; }
-    public int cardNumber { get; set; }
-    public int cardCVV { get; set; }
-    public string? cardBank { get; set; }
-    public int expireData { get; set; }
+    private string? userCardName;
+    private string? cardNumber;
+    private int cardCVV { get; set; }
+
+    private string? cardBank;
+    private string? expireData;
 }
     

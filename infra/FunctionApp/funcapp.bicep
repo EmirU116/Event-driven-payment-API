@@ -1,6 +1,4 @@
-
 // Storage parammeters / variables 
-
 @description('Specifies region of all resources')
 param location string = resourceGroup().location
 
@@ -19,7 +17,7 @@ param hostingPlanSku string = 'Y1'
 
 // Function App Parameters / Variables
 @description('Name of the function app')
-param functionAppName string
+param functionAppName string = 'testFunction'
 
 // Storage Account 
 resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' = {

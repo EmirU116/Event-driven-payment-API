@@ -1,21 +1,24 @@
+
 targetScope = 'subscription'
 
 // parameters for the name of the resource group and location
 param resourceGroupName string = 'event-rg'
 param location string = 'westeurope'
 
+param uniqueSuffix string = uniqueString(newGuid())
+
 // Service Bus Parameters
-param serviceBusName string = 'sb-namespace'
+param serviceBusName string = 'sb-namespace-${uniqueSuffix}'
 param serviceBusQueueName string = 'payment-queue'
 
 // Parameters for Key Vault
-param keyVaultName string = 'myKeyVaultDemo'
-param objectId string
+//param keyVaultName string = 'myKeyVaultDemo'
+//param objectId string
 
 // Parameter for Cosmos DB
-param cosmosAccountName string = 'my-cosmos-account'
-param cosmosDBName string = 'auditlogdb'
-param cosmosContainerName string = 'transactions'
+param cosmosAccountName string = 'my-cosmos-account-${uniqueSuffix}'
+param cosmosDBName string = 'auditlogdb-${uniqueSuffix}'
+param cosmosContainerName string = 'transactions-${uniqueSuffix}'
 
 @allowed([
   'Basic'
@@ -25,11 +28,36 @@ param cosmosContainerName string = 'transactions'
 
 param skuName string = 'Basic'
 
-// calling resource script 
-module creatingRgModule 'resource.bicep' = {
-  name: 'createResourceGroup'
+// Event Grid Topic creation
+module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
+  name: 'deployEventGridTopic'
+  scope: resourceGroup(resourceGroupName)
   params: {
-    resourceGroupName: resourceGroupName
+    topicName: 'payment-event-grid'
+    location: location
+    inputSchemaNAme: 'EventGridSchema'
+  }
+  dependsOn: [
+    //creatingRgModule
+  ]
+}
+
+// // calling resource script 
+// module creatingRgModule 'resource.bicep' = {
+//   name: 'createResourceGroup'
+//   params: {
+//     resourceGroupName: resourceGroupName
+//     location: location
+//   }
+// }
+// service bus (queue)
+module createServcieBus 'Service-Bus/service-bus.bicep' = {
+  name: 'deployServcieBus'
+  scope: resourceGroup(resourceGroupName)
+  params: {
+    serviceBusName: serviceBusName
+    servicebusQueueName: serviceBusQueueName
+    skuName: skuName
     location: location
   }
 }
@@ -43,38 +71,14 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
     functionAppName: 'myfunctionappgoklarz'
   }
   dependsOn: [
-    creatingRgModule
+    createServcieBus
   ]  
 } 
-// service bus (queue)
-module createServcieBus 'Service-Bus/service-bus.bicep' = {
-  name: 'deployServcieBus'
-  scope: resourceGroup(resourceGroupName)
-  params: {
-    serviceBusName: serviceBusName
-    servicebusQueueName: serviceBusQueueName
-    skuName: skuName
-    location: location
-  }
-}
 
-// Event Grid Topic creation
-module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
-  name: 'deployEventGridTopic'
-  scope: resourceGroup(resourceGroupName)
-  params: {
-    topicName: 'payment-event-grid'
-    location: location
-    inputSchemaNAme: 'EventGridSchema'
-  }
-  dependsOn: [
-    creatingRgModule
-  ]
-}
 
 // Cosmos DB Module
 module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
-  name: 'cosmosDeployment'
+  name: 'cosmosDeployment-${uniqueSuffix}'
   scope: resourceGroup(resourceGroupName)
   params: {
     accountName: cosmosAccountName
@@ -83,19 +87,18 @@ module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
   }
 }
 // Access module outputs
-output cosmosContainerId string = cosmosDBModule.outputs.resourceId
-output cosmosContainerName string = cosmosDBModule.outputs.name
+// output cosmosContainerId string = cosmosDBModule.outputs.resourceId
+// output cosmosContainerName string = cosmosDBModule.outputs.name
 
-// Key Vault
-module keyVaultModule 'KeyVault/keyvault.bicep' = {
-  scope: resourceGroup(resourceGroupName)
-  name: 'deployKeyVault'
-  params: {
-    keyvaulName: keyVaultName
-    objecId: objectId
-    location:location
-  }
-}
+// // Key Vault
+// module keyVaultModule 'KeyVault/keyvault.bicep' = {
+//   scope: resourceGroup(resourceGroupName)
+//   name: 'deployKeyVault-${uniqueSuffix}'
+//   params: {
+//     keyvaulName: keyVaultName
+//     objecId: objectId
+//   }
+// }
 
 
 

@@ -26,9 +26,9 @@ public class SwipeCardFunc
     {
         var body = await req.ReadAsStringAsync();
 
-        string serviceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnectionString"); 
+        string ?serviceBusConnectionString = Environment.GetEnvironmentVariable("ServiceBusConnectionString"); 
         var client = new ServiceBusClient(serviceBusConnectionString);
-        var sender = client.CreateSender("my-queue");
+        var sender = client.CreateSender("payment-queue");
 
         var message = new ServiceBusMessage(body)
         {

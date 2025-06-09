@@ -70,7 +70,7 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
     functionAppName: 'myfunctionappgoklarz'
   }
   dependsOn: [
-    createServcieBus
+    //createServcieBus
   ]  
 } 
 

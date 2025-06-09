@@ -1,4 +1,3 @@
-
 targetScope = 'subscription'
 
 // parameters for the name of the resource group and location
@@ -8,7 +7,7 @@ param location string = 'westeurope'
 param uniqueSuffix string = uniqueString(newGuid())
 
 // Service Bus Parameters
-param serviceBusName string = 'sb-namespace-${uniqueSuffix}'
+param serviceBusName string = 'sb-namespace'
 param serviceBusQueueName string = 'payment-queue'
 
 // Parameters for Key Vault
@@ -16,9 +15,9 @@ param serviceBusQueueName string = 'payment-queue'
 //param objectId string
 
 // Parameter for Cosmos DB
-param cosmosAccountName string = 'my-cosmos-account-${uniqueSuffix}'
-param cosmosDBName string = 'auditlogdb-${uniqueSuffix}'
-param cosmosContainerName string = 'transactions-${uniqueSuffix}'
+// param cosmosAccountName string = 'my-cosmos-account'
+// param cosmosDBName string = 'auditlogdb'
+// param cosmosContainerName string = 'transactions'
 
 @allowed([
   'Basic'
@@ -42,14 +41,14 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   ]
 }
 
-// // calling resource script 
-// module creatingRgModule 'resource.bicep' = {
-//   name: 'createResourceGroup'
-//   params: {
-//     resourceGroupName: resourceGroupName
-//     location: location
-//   }
-// }
+// calling resource script 
+module ResourceGroupDeploy 'resource.bicep' = {
+  name: 'eventdriven-rg'
+  params: {
+    resourceGroupName: resourceGroupName
+    location: location
+  }
+}
 // service bus (queue)
 module createServcieBus 'Service-Bus/service-bus.bicep' = {
   name: 'deployServcieBus'
@@ -75,17 +74,17 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
   ]  
 } 
 
-
-// Cosmos DB Module
-module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
-  name: 'cosmosDeployment-${uniqueSuffix}'
-  scope: resourceGroup(resourceGroupName)
-  params: {
-    accountName: cosmosAccountName
-    containerName: cosmosContainerName
-    databaseName: cosmosDBName
-  }
-}
+// better to wait on deploying DB 
+// // Cosmos DB Module
+// module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
+//   name: 'cosmosDeployment'
+//   scope: resourceGroup(resourceGroupName)
+//   params: {
+//     accountName: cosmosAccountName
+//     containerName: cosmosContainerName
+//     databaseName: cosmosDBName
+//   }
+// }
 // Access module outputs
 // output cosmosContainerId string = cosmosDBModule.outputs.resourceId
 // output cosmosContainerName string = cosmosDBModule.outputs.name
@@ -101,5 +100,6 @@ module cosmosDBModule 'CosmosDB/cosmos.bicep' = {
 // }
 
 
-
+// TODO: 
+// - make connection with commiting
 

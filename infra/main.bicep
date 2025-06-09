@@ -7,7 +7,7 @@ param location string = 'westeurope'
 param uniqueSuffix string = uniqueString(newGuid())
 
 // Service Bus Parameters
-param serviceBusName string = 'sb-namespace'
+param serviceBusName string = 'sb-namespace-${uniqueSuffix}'
 param serviceBusQueueName string = 'payment-queue'
 
 // Parameters for Key Vault
@@ -27,6 +27,15 @@ param serviceBusQueueName string = 'payment-queue'
 
 param skuName string = 'Basic'
 
+// calling resource script 
+module ResourceGroupDeploy 'resource.bicep' = {
+  name: 'event-rg'
+  params: {
+    resourceGroupName: resourceGroupName
+    location: location
+  }
+}
+
 // Event Grid Topic creation
 module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
   name: 'deployEventGridTopic'
@@ -37,17 +46,8 @@ module eventGridModuele 'Event-Grid-Topic/event-grid.bicep' = {
     inputSchemaNAme: 'EventGridSchema'
   }
   dependsOn: [
-    //creatingRgModule
+    ResourceGroupDeploy
   ]
-}
-
-// calling resource script 
-module ResourceGroupDeploy 'resource.bicep' = {
-  name: 'eventdriven-rg'
-  params: {
-    resourceGroupName: resourceGroupName
-    location: location
-  }
 }
 // service bus (queue)
 module createServcieBus 'Service-Bus/service-bus.bicep' = {
@@ -59,6 +59,9 @@ module createServcieBus 'Service-Bus/service-bus.bicep' = {
     skuName: skuName
     location: location
   }
+  dependsOn: [
+    ResourceGroupDeploy
+  ]
 }
 // creating function app from funcapp.bicep script with consumption plan
 module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
@@ -70,10 +73,9 @@ module creatingfunctionapp 'FunctionApp/funcapp.bicep' = {
     functionAppName: 'myfunctionappgoklarz'
   }
   dependsOn: [
-    //createServcieBus
+    ResourceGroupDeploy
   ]  
 } 
-
 // better to wait on deploying DB 
 // // Cosmos DB Module
 // module cosmosDBModule 'CosmosDB/cosmos.bicep' = {

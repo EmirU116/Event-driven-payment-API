@@ -21,16 +21,22 @@ param hostingPlanSku string = 'Y1'
 @description('Name of the function app')
 param functionAppName string
 
+resource storageAcc 'Microsoft.Storage/storageAccounts@2024-01-01' existing = {
+  name: storageAccountName
+}
+
 // Storage Account 
 resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' = {
   name: storageAccountName
   location: location
+  kind: 'StorageV2'
   sku: {
     name: storageSku
   }
-  kind: 'StorageV2'
   properties: {
-    accessTier: 'Hot'
+    supportsHttpsTrafficOnly: true
+    defaultToOAuthAuthentication: true
+    allowBlobPublicAccess: false
   }
 }
 // Hosting Plan (Consumption)
@@ -49,14 +55,14 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2024-04-01' = {
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   name: functionAppName
   location: location
-  kind: 'functionapp'
+  kind: 'functionapp,linux'
   properties: {
     serverFarmId: hostingPlan.id
     siteConfig: {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storage.name};AccountKey=${listKeys(storage.id, storage.apiVersion).keys[0].value};EndpointSuffix=core.windows.net'
+          value: storageAcc.name
         }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
@@ -64,11 +70,24 @@ resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
         }
         {
           name: 'FUNCTION_WORKER_RUNTIME'
-          value: 'dotnet'
+          value: 'dotnet-isolated'
         }
       ]
     }
-    httpsOnly: true
+    functionAppConfig: {
+      deployment: {
+        storage: {
+          type: 'blobContainer'
+          authentication: {
+            type: 'SystemAssignedIdentity'
+          }
+        }
+      }
+      runtime: {
+        name: 'dotnet-isolated'
+        version: '8.0'
+      }
+    }    
   }
   dependsOn: [
     storage

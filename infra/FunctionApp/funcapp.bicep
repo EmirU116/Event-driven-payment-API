@@ -159,7 +159,7 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
       deployment: {
         storage: {
           type:'blobContainer'
-          value:'${storage.properties.primaryEndpoints.blob}'
+          value:'${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
           authentication: {
             type: 'SystemAssignedIdentity'
           }

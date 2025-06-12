@@ -153,6 +153,11 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: appInsights.properties.ConnectionString
         }
+        {
+          name: 'FUNCTION_WORKER_VERSION'
+          value: '~4'
+        }
+        
       ]
     }
     functionAppConfig: {

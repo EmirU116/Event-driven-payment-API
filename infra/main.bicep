@@ -124,7 +124,7 @@ param maximumInstanceCount int = 100
 param instanceMemoryMB int = 2048
 param zoneRedundant bool = false
 
-param eventGr
+param eventGridName string = 'deployEGrid'
 
 // Generate a unique token to be used in naming resources.
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
@@ -171,10 +171,10 @@ module consumptionFunction 'FunctionApp/funcapp.bicep' = {
   }
 }
 
-
-module topicMod 'Event-Grid-Topic/event-grid.bicep' = {
-  name: 'eventGridModule'
+module EventTopic 'Event-Grid-Topic/event-grid.bicep' = {
+  scope: rg
   params: {
-    topicName: 
+    topicName: eventGridName
+    location: location
   }
 }

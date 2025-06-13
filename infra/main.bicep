@@ -126,6 +126,9 @@ param zoneRedundant bool = false
 
 param eventGridName string = 'deployEGrid'
 
+param serviceBusNameNP string = 'deploySBNamespace'
+param serviceBusNameTopic string = 'deploySBTopic'
+
 // Generate a unique token to be used in naming resources.
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
 
@@ -176,5 +179,14 @@ module EventTopic 'Event-Grid-Topic/event-grid.bicep' = {
   params: {
     topicName: eventGridName
     location: location
+  }
+}
+
+
+module ServiceBusDeployment 'Service-Bus/service-bus.bicep' = {
+  scope: rg
+  params: {
+    serviceBusName: serviceBusNameNP  
+    servicebusQueueName: serviceBusNameTopic
   }
 }

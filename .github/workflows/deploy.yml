@@ -23,9 +23,9 @@ jobs:
           az deployment group create \
             --resource-group eventdrivenRG \
             --template-file ./infra/main.bicep \
-            --parameters functionAppName=eventbasedAPI-App environmentName=envTest
-            --debug
-            --output none
+            --parameters appName=eventbasedAPI-App environmentName=envTest location=WestUS
+          --output none
+          --debug
 
   build-and-deploy:
       needs: deploy-infra

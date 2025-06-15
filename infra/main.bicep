@@ -100,16 +100,16 @@
 
 
 
-targetScope = 'resourceGroup'
+targetScope = 'subscription'
 
 @description('Primary location for all resources')
 param environmentName string
 
-param location string = 'WestUS'
+param location string
 //param appInsightsLocation string = ''
 param resourceGroupName string = ''
 param functionPlanName string = ''
-param functionAppName string = 'eventbasedAPI-App'
+param functionAppName string
 param storageAccountName string = ''
 //param logAnalyticsName string = ''
 param applicationInsightsName string = ''
@@ -164,13 +164,16 @@ module consumptionFunction 'FunctionApp/funcapp.bicep' = {
     appName: appName
     applicationInsightsName: applicationInsightsName
     planName: !empty(functionPlanName) ? functionPlanName : '${resourceToken}' 
+
+    // 🛠 These lines are now correctly named:
     functionAppRunTime: functionAppRuntime
     functionAppRunTimeVersion: functionAppRuntimeVersion
     maximumInstanceCount: maximumInstanceCount
     instanceMemory: instanceMemoryMB
     zoneRedundent: zoneRedundant
+
     deploymentStorageContainerName: deploymentStorageContainerName
-    storageAccountName:storage.outputs.name
+    storageAccountName: storage.outputs.name
   }
 }
 

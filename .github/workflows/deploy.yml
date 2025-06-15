@@ -23,7 +23,8 @@ jobs:
           az deployment sub create \
             --location WestUS \
             --template-file ./infra/main.bicep \
-            --parameters functionAppName=eventbasedAPI-App, environmentName=envTest, location=WestUS
+            --parameters functionAppName=eventbasedAPI-App environmentName=envTest location=WestUS
+            --debug
 
   build-and-deploy:
       needs: deploy-infra

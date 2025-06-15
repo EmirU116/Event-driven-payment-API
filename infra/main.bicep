@@ -191,5 +191,7 @@ module ServiceBusDeployment 'Service-Bus/service-bus.bicep' = {
   params: {
     serviceBusName: serviceBusNameNP  
     servicebusQueueName: serviceBusNameTopic
+    location: location
+    skuName: 'Basic'
   }
 }

@@ -24,8 +24,7 @@ jobs:
             --location WestUS \
             --template-file ./infra/main.bicep \
             --parameters functionAppName=eventbasedAPI-App environmentName=envTest location=WestUS \
-          --output none
-          --debug
+          --output none --debug
 
   build-and-deploy:
       needs: deploy-infra

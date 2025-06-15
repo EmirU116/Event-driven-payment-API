@@ -20,8 +20,8 @@ jobs:
         
       - name: Deploy Bicep Template
         run: |
-          az deployment group create \
-            --resource-group my-resource-group \
+          az deployment sub create \
+            --location WestUS \
             --template-file ./infra/main.bicep \
             --parameters appName=eventbasedAPI-App
 

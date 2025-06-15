@@ -100,7 +100,7 @@
 
 
 
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
 @description('Primary location for all resources')
 param environmentName string

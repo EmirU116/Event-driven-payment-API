@@ -105,7 +105,7 @@ targetScope = 'subscription'
 @description('Primary location for all resources')
 param environmentName string
 
-param location string
+param location string = 'WestUS'
 //param appInsightsLocation string = ''
 param resourceGroupName string = ''
 param functionPlanName string = ''

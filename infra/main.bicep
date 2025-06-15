@@ -106,12 +106,12 @@ targetScope = 'subscription'
 param environmentName string
 
 param location string
-param appInsightsLocation string = ''
+//param appInsightsLocation string = ''
 param resourceGroupName string = ''
 param functionPlanName string = ''
 param functionAppName string = 'eventbasedAPI-App'
 param storageAccountName string = ''
-param logAnalyticsName string = ''
+//param logAnalyticsName string = ''
 param applicationInsightsName string = ''
 @allowed(['dotnet-isolated', 'python', 'java','node','powerShell'])
 param functionAppRuntime string = 'dotnet-isolated'

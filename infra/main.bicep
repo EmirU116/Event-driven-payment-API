@@ -109,7 +109,7 @@ param location string
 param appInsightsLocation string = ''
 param resourceGroupName string = ''
 param functionPlanName string = ''
-param functionAppName string = ''
+param functionAppName string = 'eventbasedAPI-App'
 param storageAccountName string = ''
 param logAnalyticsName string = ''
 param applicationInsightsName string = ''
@@ -156,7 +156,7 @@ module storage 'storage/storage-account.bicep' = {
 }
 
 module consumptionFunction 'FunctionApp/funcapp.bicep' = {
-  name: 'functionapp'
+  name: 'eventbasedAPI-Deploy'
   scope: rg
   params: {
     location: location

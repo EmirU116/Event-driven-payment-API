@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cardswipe", "cardswipe", "{B703ECFD-29EA-2896-7437-CA8E942F55AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartCardFunction", "src\cardswipe\StartCardFunction\StartCardFunction.csproj", "{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B703ECFD-29EA-2896-7437-CA8E942F55AE} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{28B2E4E1-3E92-A9C3-2114-0BC03FE32E9C} = {B703ECFD-29EA-2896-7437-CA8E942F55AE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCF0F983-48E0-4C5A-82C4-81A4F272DEF0}
+	EndGlobalSection
+EndGlobal

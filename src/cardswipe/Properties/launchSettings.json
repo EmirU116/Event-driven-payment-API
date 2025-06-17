@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "StartCardFunction": {
+    "cardswipe": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7017",
+      "commandLineArgs": "--port 7107",
       "launchBrowser": false
     }
   }

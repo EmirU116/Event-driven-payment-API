@@ -109,7 +109,7 @@ param functionAppRunTimeVersion string = '8.0'
 
 param maximumInstanceCount int = 100
 param instanceMemory int = 2048
-param zoneRedundent bool = false
+param zoneRedundant bool = false
 
 resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' existing = {
   name: storageAccountName
@@ -129,7 +129,7 @@ resource conFuncPlan 'Microsoft.Web/serverfarms@2024-11-01' = {
     name: 'Y1'
   }
   properties: {
-    zoneRedundant: zoneRedundent
+    zoneRedundant: zoneRedundant
   }
 }
 
@@ -137,7 +137,7 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
   name: appName
   location: location
   tags: tags
-  kind: 'functionapp, linux'
+  kind: 'functionapp,linux'
   identity: {
     type: 'SystemAssigned'
   }
@@ -146,25 +146,28 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
     siteConfig: {
       appSettings: [
         {
-          name: 'AzureWebJobsStorage__accountName'
-          value: storage.name
+          name: 'AzureWebJobsStorage'
+          value: storage.listKeys().keys[0].connectionString
         }
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: appInsights.properties.ConnectionString
         }
         {
-          name: 'FUNCTION_WORKER_VERSION'
+          name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
         }
-        
+        {
+          name: 'FUNCTION_WORKER_RUNTIME'
+          value: functionAppRunTime
+        }
       ]
     }
     functionAppConfig: {
       deployment: {
         storage: {
           type:'blobContainer'
-          value:'${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}'
+          value: '${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}${endsWith(deploymentStorageContainerName, '/') ? '' : '/'}'
           authentication: {
             type: 'SystemAssignedIdentity'
           }

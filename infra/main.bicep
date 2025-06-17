@@ -107,8 +107,9 @@ param environmentName string
 
 param location string
 //param appInsightsLocation string = ''
-param resourceGroupName string = ''
-param functionPlanName string = ''
+@description('Name of the resource group to deploy resources into')
+param resourceGroupName string 
+param functionPlanName string
 param functionAppName string
 param storageAccountName string = ''
 //param logAnalyticsName string = ''
@@ -169,7 +170,7 @@ module consumptionFunction 'FunctionApp/funcapp.bicep' = {
     functionAppRunTimeVersion: functionAppRuntimeVersion
     maximumInstanceCount: maximumInstanceCount
     instanceMemory: instanceMemoryMB
-    zoneRedundent: zoneRedundant
+    zoneRedundant: zoneRedundant
 
     deploymentStorageContainerName: deploymentStorageContainerName
     storageAccountName: storage.outputs.name

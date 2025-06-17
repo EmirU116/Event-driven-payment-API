@@ -18,13 +18,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
         
+      # Deploys Azure resources (e.g., Function App, Resource Group, Storage Account) defined in the Bicep template
       - name: Deploy Bicep Template
         run: |
           az deployment sub create \
             --location westeurope \
             --template-file ./infra/main.bicep \
             --parameters functionAppName="eventbasedAPI-App" environmentName="envTest" location="westeurope" resourceGroupName="event-rg" \
-          --output none --debug     
+            --output none --debug
   build-and-deploy:
       needs: deploy-infra
       runs-on: ubuntu-latest

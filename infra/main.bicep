@@ -110,7 +110,7 @@ param location string
 @description('Name of the resource group to deploy resources into')
 param resourceGroupName string 
 param functionPlanName string = ''
-param functionAppName stringÖ
+param functionAppName string
 param storageAccountName string = ''
 //param logAnalyticsName string = ''
 param applicationInsightsName string = ''

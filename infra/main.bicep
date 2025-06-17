@@ -106,9 +106,6 @@ targetScope = 'resourceGroup'
 param environmentName string = ''
 
 param location string
-//param appInsightsLocation string = ''
-// @description('Name of the resource group to deploy resources into')
-// param resourceGroupName string 
 param functionPlanName string = 'conplan-name-event'
 param functionAppName string
 param storageAccountName string

@@ -156,7 +156,7 @@ module storage 'storage/storage-account.bicep' = {
 }
 
 module consumptionFunction 'FunctionApp/funcapp.bicep' = {
-  name: 'eventbasedAPI-Deploy'
+  name: 'eventbasedAPI-App'
   scope: rg
   params: {
     location: location

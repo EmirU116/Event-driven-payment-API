@@ -109,8 +109,8 @@ param location string
 //param appInsightsLocation string = ''
 @description('Name of the resource group to deploy resources into')
 param resourceGroupName string 
-param functionPlanName string
-param functionAppName string
+param functionPlanName string = ''
+param functionAppName stringÖ
 param storageAccountName string = ''
 //param logAnalyticsName string = ''
 param applicationInsightsName string = ''

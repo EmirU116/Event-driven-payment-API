@@ -24,7 +24,7 @@ jobs:
           az deployment sub create \
             --location westeurope \
             --template-file ./infra/main.bicep \
-            --parameters functionAppName="eventbasedAPI-App" environmentName="envTest" location="westeurope" resourceGroupName="event-rg" \
+            --parameters functionAppName="eventbasedAPI-App" environmentName="envTest" location="westeurope" resourceGroupName="eventdriv-rg" \
             --output none --debug
   build-and-deploy:
       needs: deploy-infra

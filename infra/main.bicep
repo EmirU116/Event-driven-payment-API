@@ -100,20 +100,19 @@
 
 
 
-targetScope = 'subscription'
+targetScope = 'resourceGroup'
 
 @description('Primary location for all resources')
-param environmentName string
+param environmentName string = ''
 
 param location string
 //param appInsightsLocation string = ''
-@description('Name of the resource group to deploy resources into')
-param resourceGroupName string 
-param functionPlanName string = ''
+// @description('Name of the resource group to deploy resources into')
+// param resourceGroupName string 
+param functionPlanName string = 'conplan-name-event'
 param functionAppName string
-param storageAccountName string = ''
+param storageAccountName string
 //param logAnalyticsName string = ''
-param applicationInsightsName string = ''
 @allowed(['dotnet-isolated', 'python', 'java','node','powerShell'])
 param functionAppRuntime string = 'dotnet-isolated'
 @allowed(['3.10','3.11', '7.4', '8.0', '9.0', '10', '11', '17', '20', '21', '22'])
@@ -125,15 +124,16 @@ param maximumInstanceCount int = 100
 param instanceMemoryMB int = 2048
 param zoneRedundant bool = false
 
-param eventGridName string = 'deployEGrid'
 
-param serviceBusNameNP string = 'deploySBNamespace'
-param serviceBusNameTopic string = 'deploySBTopic'
 
 // Generate a unique token to be used in naming resources.
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
+param eventGridName string = 'eg-deploy'
 
-var appName = !empty(functionAppName) ? functionAppName : '${resourceToken}'
+param serviceBusNameNP string  = 'sbn-deploy'
+param serviceBusNameTopic string = 'sbnt-deploy'
+
+var appName = functionAppName
 // Generate a unique container name that will be used for deployments.
 var deploymentStorageContainerName = 'app-package-${take(appName, 32)}-${take(resourceToken, 7)}'
 var tags = {
@@ -141,29 +141,29 @@ var tags = {
   'azd-env-name': environmentName
 }
 
-// Resource Group creation
-resource rg 'Microsoft.Resources/resourceGroups@2025-04-01' = {
-  name: !empty(resourceGroupName) ? resourceGroupName : '${resourceGroupName}${environmentName}'
-  location: location
-  tags: tags
-}
+// // Resource Group creation
+// resource rg 'Microsoft.Resources/resourceGroups@2025-04-01' = {
+//   name: !empty(environmentName) ? '${resourceGroupName}${environmentName}' : resourceGroupName
+//   location: location
+//   tags: tags
+// }
 
 module storage 'storage/storage-account.bicep' = {
-  name: 'storage'
-  scope: rg
+  name: 'myeventdrivenstorageaccount'
+  scope: resourceGroup()
   params: {
-    name: !empty(storageAccountName) ? storageAccountName : '${resourceToken}'
+    name: storageAccountName
   }
 }
 
 module consumptionFunction 'FunctionApp/funcapp.bicep' = {
-  scope: rg
+  name: 'eventdrivenapiAppFuncDeploy'
+  scope: resourceGroup()
   params: {
     location: location
     tags: tags
     appName: appName
-    applicationInsightsName: applicationInsightsName
-    planName: !empty(functionPlanName) ? functionPlanName : '${resourceToken}' 
+    planName: functionPlanName
 
     // 🛠 These lines are now correctly named:
     functionAppRunTime: functionAppRuntime
@@ -178,7 +178,8 @@ module consumptionFunction 'FunctionApp/funcapp.bicep' = {
 }
 
 module EventTopic 'Event-Grid-Topic/event-grid.bicep' = {
-  scope: rg
+  name: 'deployeventgridtopic'
+  scope: resourceGroup() 
   params: {
     topicName: eventGridName
     location: location
@@ -187,7 +188,8 @@ module EventTopic 'Event-Grid-Topic/event-grid.bicep' = {
 
 
 module ServiceBusDeployment 'Service-Bus/service-bus.bicep' = {
-  scope: rg
+  name: 'servicebusdeploy'
+  scope: resourceGroup()
   params: {
     serviceBusName: serviceBusNameNP  
     servicebusQueueName: serviceBusNameTopic

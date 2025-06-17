@@ -102,7 +102,7 @@ param appName string
 param location string = resourceGroup().location
 param storageAccountName string
 param deploymentStorageContainerName string
-param applicationInsightsName string
+// param applicationInsightsName string
 param tags object = {}
 param functionAppRunTime string = 'dotnet-isolated'
 param functionAppRunTimeVersion string = '8.0'
@@ -115,9 +115,9 @@ resource storage 'Microsoft.Storage/storageAccounts@2024-01-01' existing = {
   name: storageAccountName
 }
 
-resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: applicationInsightsName
-}
+// resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
+//   name: applicationInsightsName
+// }
 
 resource conFuncPlan 'Microsoft.Web/serverfarms@2024-11-01' = {
   name: planName
@@ -147,12 +147,12 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
       appSettings: [
         {
           name: 'AzureWebJobsStorage'
-          value: storage.listKeys().keys[0].connectionString
+          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${storage.listKeys().keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
         }
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: appInsights.properties.ConnectionString
-        }
+        // {
+        //   name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+        //   value: appInsights.properties.ConnectionString
+        // }
         {
           name: 'FUNCTIONS_EXTENSION_VERSION'
           value: '~4'
@@ -163,25 +163,25 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
         }
       ]
     }
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type:'blobContainer'
-          value: '${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}${endsWith(deploymentStorageContainerName, '/') ? '' : '/'}'
-          authentication: {
-            type: 'SystemAssignedIdentity'
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        maximumInstanceCount: maximumInstanceCount
-        instanceMemoryMB: instanceMemory
-      }
-      runtime: {
-        name: functionAppRunTime
-        version: functionAppRunTimeVersion
-      }
-    }
+    // functionAppConfig: {
+    //   deployment: {
+    //     storage: {
+    //       type:'blobContainer'
+    //       value: '${storage.properties.primaryEndpoints.blob}${deploymentStorageContainerName}${endsWith(deploymentStorageContainerName, '/') ? '' : '/'}'
+    //       authentication: {
+    //         type: 'SystemAssignedIdentity'
+    //       }
+    //     }
+    //   }
+    //   scaleAndConcurrency: {
+    //     maximumInstanceCount: maximumInstanceCount
+    //     instanceMemoryMB: instanceMemory
+    //   }
+    //   runtime: {
+    //     name: functionAppRunTime
+    //     version: functionAppRunTimeVersion
+    //   }
+    // }
   }
 }
 

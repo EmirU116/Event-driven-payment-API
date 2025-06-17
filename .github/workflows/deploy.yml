@@ -21,10 +21,10 @@ jobs:
       # Deploys Azure resources (e.g., Function App, Resource Group, Storage Account) defined in the Bicep template
       - name: Deploy Bicep Template
         run: |
-          az deployment sub create \
-            --location westeurope \
+          az deployment group create \
+            --resource-group eventdriapi-rg \
             --template-file ./infra/main.bicep \
-            --parameters functionAppName="eventbasedAPI-App" environmentName="envTest" location="westeurope" resourceGroupName="eventdriv-rg" \
+            --parameters functionAppName=eventbasedapi-app location=westeurope storageAccountName=accstorenameapi \
             --output none --debug
   build-and-deploy:
       needs: deploy-infra

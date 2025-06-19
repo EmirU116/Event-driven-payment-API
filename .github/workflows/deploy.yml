@@ -40,12 +40,12 @@ jobs:
               dotnet-version: '8.0.x'
           
           - name: Restore and Build Function App
-            run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o ./publish
+            run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o .src/cardswipe/publish
 
           - name: Publish to Azure Function App
             run: | 
               cd src/cardswipe
-              func azure functionapp publish eventbasedapi-app
+              func azure functionapp publish eventbasedapi-app --csharp --publish-local-settings -i ./publish 
 
           # - name: Deploy to Azure Function App
           #   uses: Azure/functions-action@v1

@@ -47,6 +47,11 @@ jobs:
           - name: Install Azure Function Core Tools
             run: npm install -g azure-functions-core-tools@v4 --unsafe-perm true
 
+          - name: Log In Azure
+            uses: azure/login@v1
+            with:
+              creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
           - name: Restore and Build Function App
             run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o ./src/cardswipe
 

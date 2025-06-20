@@ -57,6 +57,7 @@ jobs:
 
           - name: Publish to Azure Function App
             run: | 
+              cd src/cardswipe
               func azure functionapp publish eventbasedapi-app
 
           # - name: Deploy to Azure Function App

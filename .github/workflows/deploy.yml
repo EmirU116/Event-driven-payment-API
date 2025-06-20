@@ -43,9 +43,9 @@ jobs:
             uses: actions/setup-node@v4
             with:
               node-version: '18'
-              
+
           - name: Install Azure Function Core Tools
-            run: npm install -g azure-functions-core-tools@v5 --unsafe-perm true
+            run: npm install -g azure-functions-core-tools@v4 --unsafe-perm true
 
           - name: Restore and Build Function App
             run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o ./src/cardswipe

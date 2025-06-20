@@ -57,7 +57,7 @@ jobs:
 
           - name: Publish to Azure Function App
             run: | 
-              func azure functionapp publish cardswipe 
+              func azure functionapp publish eventbasedapi-app
 
           # - name: Deploy to Azure Function App
           #   uses: Azure/functions-action@v1

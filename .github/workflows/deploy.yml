@@ -52,12 +52,14 @@ jobs:
             with:
               creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-          - name: Restore and Build Function App
-            run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o ./src/cardswipe
+          # - name: Restore and Build Function App
+          #   run: dotnet publish ./src/cardswipe/cardswipe.csproj -c Release -o ./src/cardswipe
 
           # deploying local functions to Azure function app 
           - name: Publish to Azure Function App
-            run: func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -c Release --publish-local-settings --debug
+            run: |
+              cd src/cardswipe
+              func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -c Release --debug
 
           # - name: Deploy to Azure Function App
           #   uses: Azure/functions-action@v1

@@ -31,9 +31,9 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-      - name: Deploy Resource Group 
-        run: az group create --name eventdriapi-rg --westeurope
-        
+      # - name: Deploy Resource Group 
+      #   run: az group create --name eventdriapi-rg --westeurope
+
       # Deploys Azure resources (e.g., Function App, Resource Group, Storage Account) defined in the Bicep template
       - name: Deploy Bicep Template
         run: |

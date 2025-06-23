@@ -59,10 +59,10 @@ jobs:
 
       - name: Restore and Build Function App
         run: |
-          cd src/cardswipe
+          cd src
           dotnet publish -c Release -o ./publish
 
       - name: Publish to Azure Function App
         run: |
-          cd src/cardswipe
+          cd src
           func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -i -c Release --no-build

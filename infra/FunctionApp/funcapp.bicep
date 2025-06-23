@@ -167,7 +167,6 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
           value: '1'
         }
       ]
-      linuxFxVersion: 'DOTNET-ISOLATED|8.0'
     }
     httpsOnly: true
     // functionAppConfig: {

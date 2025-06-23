@@ -59,7 +59,7 @@ jobs:
           - name: Publish to Azure Function App
             run: |
               cd src/cardswipe
-              func azure functionapp publish eventbasedapi-app --publish-local-settings -c Release
+              func azure functionapp publish eventbasedapi-app --dotnet --publish-local-settings -c Release --debug
 
           # - name: Deploy to Azure Function App
           #   uses: Azure/functions-action@v1

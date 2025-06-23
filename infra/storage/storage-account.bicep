@@ -11,7 +11,7 @@ param location string = resourceGroup().location
 param accessTier string = 'Hot'
 param allowBlobPublicAccess bool = false
 param allowCrossTenantReplication bool = true
-param allowSharedKeyAccess bool = false
+param allowSharedKeyAccess bool = true
 //param containers array = [
   
 //]

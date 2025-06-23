@@ -125,11 +125,12 @@ resource conFuncPlan 'Microsoft.Web/serverfarms@2024-11-01' = {
   tags: tags
   kind: 'functionapp'
   sku: {
-    tier: 'Consumption'
     name: 'Y1'
+    tier: 'Dynamic'
   }
   properties: {
     zoneRedundant: zoneRedundant
+    reserved: false
   }
 }
 
@@ -137,7 +138,7 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
   name: appName
   location: location
   tags: tags
-  kind: 'functionapp,linux'
+  kind: 'functionapp'
   identity: {
     type: 'SystemAssigned'
   }
@@ -158,11 +159,17 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
           value: '~4'
         }
         {
-          name: 'FUNCTION_WORKER_RUNTIME'
+          name: 'FUNCTIONS_WORKER_RUNTIME'
           value: functionAppRunTime
         }
+        {
+          name: 'WEBSITE_RUN_FROM_PACKAGE'
+          value: '1'
+        }
       ]
+      linuxFxVersion: 'DOTNET-ISOLATED|8.0'
     }
+    httpsOnly: true
     // functionAppConfig: {
     //   deployment: {
     //     storage: {
@@ -183,6 +190,9 @@ resource consumFuncApp 'Microsoft.Web/sites@2024-11-01' = {
     //   }
     // }
   }
+  dependsOn:[
+    conFuncPlan
+  ]
 }
 
 

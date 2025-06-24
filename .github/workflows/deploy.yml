@@ -59,8 +59,8 @@ jobs:
 
       - name: Restore and Build Function App
         run: |
-          dotnet publish -c Release -o ./publish
+          dotnet publish ./src -c Release -o ./publish
 
       - name: Publish to Azure Function App
         run: |
-          func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -i -c Release --no-build
+          func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -i -c Release --no-build --script-root ./src

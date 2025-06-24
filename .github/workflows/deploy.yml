@@ -42,20 +42,6 @@ jobs:
             --template-file ./infra/main.bicep \
             --parameters functionAppName=eventbasedapi-app location=westeurope storageAccountName=accstorenameapi \
             --output none --debug
-  
-  # build-and-deploy:
-  #   needs: deploy-infra
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v3
-
-
-      # - name: Azure Login
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Restore and Build Function App
         run: |
@@ -63,4 +49,4 @@ jobs:
 
       - name: Publish to Azure Function App
         run: |
-          func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -i -c Release --no-build --script-root ./src
+          func azure functionapp publish eventbasedapi-app --dotnet-isolated --publish-local-settings -i -c Release --no-build --script-root ./publish

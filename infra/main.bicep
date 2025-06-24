@@ -138,13 +138,6 @@ var tags = {
   'azd-env-name': environmentName
 }
 
-// // Resource Group creation
-// resource rg 'Microsoft.Resources/resourceGroups@2025-04-01' = {
-//   name: !empty(environmentName) ? '${resourceGroupName}${environmentName}' : resourceGroupName
-//   location: location
-//   tags: tags
-// }
-
 module storage 'storage/storage-account.bicep' = {
   name: 'myeventdrivenstorageaccount'
   scope: resourceGroup()

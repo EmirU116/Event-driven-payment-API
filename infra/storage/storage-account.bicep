@@ -1,8 +1,5 @@
 param name string
 param location string = resourceGroup().location
-// param tags object = {
-  
-// }
 
 @allowed([
   'Cool'
@@ -12,13 +9,9 @@ param accessTier string = 'Hot'
 param allowBlobPublicAccess bool = false
 param allowCrossTenantReplication bool = true
 param allowSharedKeyAccess bool = true
-//param containers array = [
-  
-//]
+
 param defaultToOAuthAuthentication bool = false
-// param deleteRetentionPolicy object = {
-//   enabled: false 
-// }
+
 @allowed([ 'AzureDnsZone', 'Standard'])
 param dnsEndpointType string = 'Standard'
 param kind string = 'StorageV2'

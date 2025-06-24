@@ -1,6 +1,5 @@
 param location string = resourceGroup().location
 param topicName string
-//param sku string = 'Basic'
 param inputSchemaName string = 'EventGridSchema'
 
 // Event Grid Resource Deployment
